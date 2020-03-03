@@ -8,6 +8,13 @@
 
 import Foundation
 
+/**
+Creates our Entry Object - *MODEL*
+ - Properties:
+    - title: The `String` identifer for the `entry`
+    - happiness: The `Int` value for how happy this `entry` makes you
+    - isIncluded: The `Bool` to designiate whether the `entry` should be included in the average happiness rating
+ */
 class Entry {
     let title: String
     let happiness: Int
@@ -18,4 +25,8 @@ class Entry {
         self.happiness = happiness
         self.isIncluded = isIncluded
     }
+}
+
+struct Constants {
+    static let notificationKey = Notification.Name(rawValue: "didChangeHappiness")
 }

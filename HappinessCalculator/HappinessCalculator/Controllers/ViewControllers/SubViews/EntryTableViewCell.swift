@@ -7,11 +7,17 @@
 //
 
 import UIKit
+/**
+The protocol we will use to handle the updating of the cell when the `inEnabledSwitch` is toggled
+   - class: This protocol can interact with class level objects
 
-// Creating our protocol
-protocol EntryTableViewCellProtocol: class {
-    //creating our function
-    func tappedCell(cell: EntryTableViewCell)
+Delegate Methods:
+   - switchToggled(on cell: EntryTableViewCell)
+
+*/
+protocol EntryCellDelegate: class {
+    /// Declare the delegate method. I.E. What is the the task the delegate will need to perform
+    func switchToggled(on cell: EntryTableViewCell)
 }
 
 class EntryTableViewCell: UITableViewCell {
@@ -22,65 +28,37 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var isEnabledSwitch: UISwitch!
     
     // MARK: - Properties
-    weak var delegate: EntryTableViewCellProtocol?
-    var entry: Entry?
-    
-    //When our cell gets deinitialized we want to remove out observer so that it doesn't just sit around in memory
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
     /**
-     This method sets the local entry of the cell, updates all the UIelements, and passes the average happiness
-     
-     - Parameter entry uses the passed in entry to update the locally saved entry plus update the UIElements on the cell with data from it
-     - Parameter averageHappiness: passes `averageHappiness` to `calculateHappiness`
-     */
-    func setEntry(entry: Entry, averageHappiness: Int) {
-        self.entry = entry
-        updateUI(averageHappiness: averageHappiness)
-        createObserver()
-    }
+    The delegate or *intern* for the `EntryCellDelegate` protocol
+
+    - weak: We mark this method as weak to not create a retain cycle
+    - optional: We do not want to set the value of the delegate here
+    */
+    weak var delegate: EntryCellDelegate?
+    
+    var entry: Entry?
     
     func updateUI(averageHappiness: Int) {
         guard let entry = entry else {return}
+        createObserver()
         titleLabel.text = entry.title
-        higherOrLowerLabel.text = calculateHappiness(averageHappiness: averageHappiness)
         isEnabledSwitch.isOn = entry.isIncluded
+        higherOrLowerLabel.text = entry.happiness >= averageHappiness ? "Higher" : "Lower"
     }
     /**
      Creates the observer for notification key `notificationKey`, declared on entryTableViewController. We add a selector, which is basically telling our observer what function to call when it gets hit, to call `recalculateHappiness`.
      */
     func createObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.recalculateHappiness), name: notificationKey, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.recalculateHappiness), name: Constants.notificationKey, object: nil)
     }
     
     @objc func recalculateHappiness(notification: NSNotification) {
         guard let averageHappiness = notification.object as? Int else {return}
-        higherOrLowerLabel.text = calculateHappiness(averageHappiness: averageHappiness)
+        updateUI(averageHappiness: averageHappiness)
         
     }
-    /**
-     Updates the higherorLowerLabel based on whether the entries happiness is higher, equal to, or lower than the averageHappiness
-     */
-    func calculateHappiness(averageHappiness: Int) -> String {
-        guard let entry = entry else {return "Error: Happines Not Found"}
-        print(averageHappiness)
-        switch entry.happiness {
-            //less than
-        case  ..<averageHappiness:
-            return "Lower"
-            //equal to
-        case averageHappiness:
-            return "Average"
-            //greater than or equal to
-        case averageHappiness...:
-            return "Higher"
-        default:
-            return "Error: Happines Not Found"
-        }
-    }
-    
+
     @IBAction func isEnabledSwitchTapped(_ sender: UISwitch) {
-        delegate?.tappedCell(cell: self)
+        delegate?.switchToggled(on: self)
     }
 }
