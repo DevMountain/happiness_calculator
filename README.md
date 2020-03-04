@@ -1,7 +1,7 @@
 # Average Happiness Simple
 Average Happiness is a single view application that allows the user  to calculate their average happiness. Users can also toggle on and off which entries are included in the calculation.
 
-#### Part 1 - Custom Cell
+## Part 1 - Custom Cell
 Our custom cell with contain the UI elements of  our `UITableViewCell` and update the data within them
 
 1. Create a new `Cocoa Touch Class` called `EntryTableViewCell`  that is a subclass of `UITableViewCell`
@@ -21,13 +21,13 @@ Our custom cell with contain the UI elements of  our `UITableViewCell` and updat
 ```
 func updateUI(averageHappiness: Int) {
     guard let entry = entry else {return}
-    titleLabel.text = entry.title
+    titleLabel.text = “\(entry.title) -> \(entry.happiness)”
     isEnabledSwitch.isOn = entry.isIncluded
     higherorLowerLabel.text = entry.happiness >= averageHappiness ? “Higher” : “Lower”
 }
 ```
 
-## Part 5 - Creating our TableView
+## Part 2 - Creating our TableView
 1. Create a new `Cocoa Touch Class`called `EntryListTableViewController`
     * be sure to subclass our TableView as type `EntryListTableViewController`
 2. Remove all functions except
@@ -46,11 +46,9 @@ let entry = EntryController.entries[indexPath.row]
 cell.entry = entry
 ///Updating the UI or our cell
 cell.updateUI(averageHappiness: averageHappiness)
-///setting our cell’s delegate equal to self. We can do this because of our EntryTableViewControllerProtocol Extension
-cell.delegate = self
 ```
 
-## Part 6 - Protocols and Delegates
+## Part 3 - Protocols and Delegates
 Explain Protocols and Delegates
 Analogy that you can use
     * Intern
@@ -93,15 +91,14 @@ EntryController.updateEntry(entry: entry)
 updateHappiness()
 ```
 
-## Part 7 - Notifications and observers
-Explain Protocols and Delegates
-Analogy that you can use
-* Notifications are like a radio tower, and observers are like a radio, observers can only hear the station that they are tuned into
+## Part 4 - Notifications and observers
+Note: Explain Notifications and Observers, Analogy that you can use
+    * Notifications are like a radio tower, and observers are like a radio, observers can only hear the station that they are tuned into
 
 1. On our `EntryListTableViewController` add a constant called notification key above where we declare the class. Set it equal to `Notification.Name(rawValue: “didChangeHappiness”)`
 `let notificationKey = Notification.Name(rawValue: “didChangeHappiness”)`
 
-2. On our `averageHappiness` add a didSet that septs our a notification every time we update the variable. For the object pass `averagehappiness`. Also update our happinessLabel
+2. On our `averageHappiness` add a didSet that septs our a notification every time we update the variable. For the object pass `averagehappiness`. Also set our title to the average happiness so we can see what it is in the application
 ```
 var averageHappiness: Int = 0 {
     /*
@@ -109,7 +106,7 @@ var averageHappiness: Int = 0 {
      */
     didSet {
         NotificationCenter.default.post(name: notificationKey, object: averageHappiness)
-        happinessLabel.text = "Average Happiness: \(averageHappiness)"
+        self.title = "Average Happiness: \(averageHappiness)"
     }
 }
 ```
@@ -128,6 +125,4 @@ func createObserver() {
       higherOrLowerLabel.text = entry.happiness >= averageHappiness ? “Higher” : “Lower”
 }
 ```
-
-7. Run app and make sure everything is working
 

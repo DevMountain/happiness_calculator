@@ -44,7 +44,7 @@ class EntryTableViewCell: UITableViewCell {
     func updateUI(averageHappiness: Int) {
         guard let entry = entry else {return}
         createObserver()
-        titleLabel.text = entry.title
+        titleLabel.text = "\(entry.title) -> \(entry.happiness)"
         isEnabledSwitch.isOn = entry.isIncluded
         higherOrLowerLabel.text = entry.happiness >= averageHappiness ? "Higher" : "Lower"
     }

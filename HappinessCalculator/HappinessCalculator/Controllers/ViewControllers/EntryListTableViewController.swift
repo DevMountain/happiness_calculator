@@ -13,16 +13,13 @@ import UIKit
 
 class EntryListTableViewController: UITableViewController {
     
-    // MARK: - IBOutlets
-    @IBOutlet weak var happinessLabel: UILabel!
-    
     // MARK: - Properties
     var averageHappiness: Int = 0 {
 
          ///Everytime that we set out happiness level we post a notification that contains out notificationKey and our averageHappiness
         didSet {
             NotificationCenter.default.post(name: Constants.notificationKey, object: averageHappiness)
-            happinessLabel.text = "Average Happiness: \(averageHappiness)"
+            self.title = "Average Happiness: \(averageHappiness)"
         }
     }
     
@@ -67,8 +64,8 @@ class EntryListTableViewController: UITableViewController {
                 happinessTotal += entry.happiness
             }
         }
-        //calculates our average happienss. Using filter allows us to only divide by
-        averageHappiness = happinessTotal / EntryController.entries.filter({$0.isIncluded}).count
+        //calculates our average happienss.
+        averageHappiness = happinessTotal / EntryController.entries.count
     }
 }
 
