@@ -95,17 +95,16 @@ updateHappiness()
 Note: Explain Notifications and Observers, Analogy that you can use
     * Notifications are like a radio tower, and observers are like a radio, observers can only hear the station that they are tuned into
 
-1. On our `EntryListTableViewController` add a constant called notification key above where we declare the class. Set it equal to `Notification.Name(rawValue: “didChangeHappiness”)`
-`let notificationKey = Notification.Name(rawValue: “didChangeHappiness”)`
-
-2. On our `averageHappiness` add a didSet that septs our a notification every time we update the variable. For the object pass `averagehappiness`. Also set our title to the average happiness so we can see what it is in the application
+1. Create a new `.swift` file called `NotificationKeys` in our `Resources` folder
+2. Inside of our `NotificationKeys` create a struct called `Constants` the contains a static property called `notificationKey`. Set it equal to `Notification.Name(rawValue: “didChangeHappiness”)`
+3. On our `averageHappiness` add a didSet that septs our a notification every time we update the variable. For the object pass `averagehappiness`. Also set our title to the average happiness so we can see what it is in the application
 ```
 var averageHappiness: Int = 0 {
     /*
-     Everytime that we set out happiness level we post a notification that contains out notificationKey and our averageHappiness
+     Everytime that we set out happiness level we post a notification that contains our notificationKey and our averageHappiness
      */
     didSet {
-        NotificationCenter.default.post(name: notificationKey, object: averageHappiness)
+        NotificationCenter.default.post(name: Constants.notificationKey, object: averageHappiness)
         self.title = "Average Happiness: \(averageHappiness)"
     }
 }
@@ -115,7 +114,7 @@ var averageHappiness: Int = 0 {
 ```
 func createObserver() {
     NotificationCenter.default.addObserver(self, selector:
-#selector(self.recalcHappiness), name: notificationKey, object: nil)
+#selector(self.recalcHappiness), name: Constants.notificationKey, object: nil)
 }
 ```
 5. Next add an objC function called `recalcHappiness` that  updates our cells average happiness label
