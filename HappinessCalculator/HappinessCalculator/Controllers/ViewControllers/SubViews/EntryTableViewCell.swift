@@ -35,9 +35,12 @@ class EntryTableViewCell: UITableViewCell {
     - optional: We do not want to set the value of the delegate here
     */
     weak var delegate: EntryCellDelegate?
-    
+    /// This entry will be passed to our `EntryTableViewCell` only once by our `EntryListTableViewController`. It will only be used in our `updateUI` function
     var entry: Entry?
     
+    
+    /// Updates the UIElements of our `EntryTableViewCell` based off of the `Entry`
+    /// - Parameter averageHappiness: Used to determine if our cells `Entry` is higher or lower than the average happiness of all events
     func updateUI(averageHappiness: Int) {
         guard let entry = entry else {return}
         createObserver()
@@ -53,11 +56,11 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     @objc func recalculateHappiness(notification: NSNotification) {
-        guard let averageHappiness = notification.object as? Int else {return}
-        updateUI(averageHappiness: averageHappiness)
+        guard let averageHappiness = notification.object as? Int, let entry = entry else {return}
+        higherOrLowerLabel.text = entry.happiness >= averageHappiness ? "Higher" : "Lower"
         
     }
-
+    /// When our `isEnabledSwitch` is toggled it will tell our `delegate`, or intern, to go complete the task `switchToggled`
     @IBAction func isEnabledSwitchTapped(_ sender: UISwitch) {
         delegate?.switchToggled(on: self)
     }

@@ -26,7 +26,3 @@ class Entry {
         self.isIncluded = isIncluded
     }
 }
-
-struct Constants {
-    static let notificationKey = Notification.Name(rawValue: "didChangeHappiness")
-}
