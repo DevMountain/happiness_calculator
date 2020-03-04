@@ -8,15 +8,12 @@
 
 import UIKit
 
-// MARK: - Notification Keys
-//let notificationKey = Notification.Name(rawValue: "didChangeHappiness")
-
 class EntryListTableViewController: UITableViewController {
     
     // MARK: - Properties
     var averageHappiness: Int = 0 {
 
-         ///Everytime that we set out happiness level we post a notification that contains out notificationKey and our averageHappiness
+         ///Everytime that we set out happiness level we post a notification that contains our notificationKey and our averageHappiness
         didSet {
             NotificationCenter.default.post(name: Constants.notificationKey, object: averageHappiness)
             self.title = "Average Happiness: \(averageHappiness)"

@@ -20,7 +20,7 @@ class EntryController {
     static var entries: [Entry] =  {
         var entry1 = Entry(title: "Reading", happiness: 30, isIncluded: true)
         var entry2 = Entry(title: "Riding my bike", happiness: 60, isIncluded: false)
-        var entry3 = Entry(title: "Waking up", happiness: 010, isIncluded: true)
+        var entry3 = Entry(title: "Waking up", happiness: 10, isIncluded: true)
         var entry4 = Entry(title: "Reading documentation", happiness: 150, isIncluded: false)
         return [entry1, entry2, entry3, entry4]
     }()
