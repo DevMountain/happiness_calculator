@@ -24,9 +24,6 @@
                                     <subviews>
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y0P-qM-XG8">
                                             <rect key="frame" x="345" y="11" width="51" height="31"/>
-                                            <connections>
-                                                <action selector="isEnabledSwitchTapped:" destination="8qQ-ob-Rmy" eventType="valueChanged" id="GTn-PM-UMH"/>
-                                            </connections>
                                         </switch>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="P9F-Zk-tLM">
                                             <rect key="frame" x="20" y="5" width="42" height="42.5"/>
@@ -54,11 +51,6 @@
                                         <constraint firstItem="Y0P-qM-XG8" firstAttribute="centerY" secondItem="48R-Wp-TcX" secondAttribute="centerY" id="llY-X0-SEX"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="higherOrLowerLabel" destination="9Qr-9f-wuQ" id="vNg-m7-gT0"/>
-                                    <outlet property="isEnabledSwitch" destination="Y0P-qM-XG8" id="lpr-p6-u2N"/>
-                                    <outlet property="titleLabel" destination="lca-xg-8F4" id="Cdp-9O-GpI"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
